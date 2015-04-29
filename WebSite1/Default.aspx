@@ -3,8 +3,10 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head id="Head1" runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="refresh" content="10">
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="//www.google.com/jsapi"></script>
 
@@ -18,9 +20,12 @@
     <title>GRAFICAS</title>
 
     <script type="text/javascript">
-           google.load('visualization', '1.1', { packages: ['bar'] });
+        google.load('visualization', '1', { packages: ['corechart'] });
     </script>
     <script type="text/javascript">
+
+        
+
         $(document).ready(function () {
             $.ajax({
                 type: 'POST',
@@ -32,25 +37,36 @@
                     function (response) {
                         drawVisualization(response.d);
                     }
-
             });
         })
+
+        var options = {
+            width: 1600,
+            height: 1000,
+            series: {
+                0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
+                1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
+            },
+            axes: {
+                y: {
+                    distance: { label: 'parsecs' }, // Left y-axis.
+                    brightness: { side: 'right', label: 'apparent magnitude' } // Right y-axis.
+                }
+            },
+            displayExactValues:true
+        };
 
         function drawVisualization(dataValues) {
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Meses');
             data.addColumn('number', '2014');
             data.addColumn('number', '2015');
-          
-         for (var i = 0; i < dataValues.length; i++) {
-    data.addRow([dataValues[i].ColumnName, dataValues[i].ValorP,dataValues[i].ValorN]);
+
+            for (var i = 0; i < dataValues.length; i++) {
+                data.addRow([dataValues[i].ColumnName, dataValues[i].ValorP, dataValues[i].ValorN]);
             }
-
-            new google.charts.Bar(document.getElementById('visualization')).
-                draw(data, { title: "Google Charts Example" });
+            new google.visualization.ColumnChart(document.getElementById('visualization')).draw(data, options);
         }
-
-
     </script>
 
 </head>
@@ -64,14 +80,14 @@
 	<div class="row clearfix">
 		<div class="col-md-12 column">
 			<h3>
-				Remesa : WALMART
+				Transmisor : FRAGUA
 			</h3>
 		</div>
 	</div>
 	<div class="row clearfix">
 		<div class="col-md-6 column">
                
-    <div id="visualization" style="width: 900px; height: 500px;"></div>
+    <div id="visualization" style="width: 2000px; height: 700px;"></div>
 		</div>
 		<div class="col-md-6 column">
 		</div>

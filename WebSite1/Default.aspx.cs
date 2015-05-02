@@ -12,13 +12,14 @@ public partial class _Default : System.Web.UI.Page
 
 
 {
-    static int[] vectorP = new int[14];
-    static int[] vectorN = new int[14];
+    static int[] vectorP = new int[5];
+    static int[] vectorN = new int[5];
 
     protected void Page_Load(object sender, EventArgs e)
     {
       
         bool aux = true; 
+
         string consulta = Query.consulta(); 
 
         SqlConnection cn = new SqlConnection("Data Source=LAB-SQL1;Initial Catalog=TNC;Integrated Security=True;Connection Timeout=0");
@@ -27,9 +28,14 @@ public partial class _Default : System.Web.UI.Page
         SqlDataReader reader = cmd.ExecuteReader();
 
         while (reader.Read()) {
-           for (int i = 2; i < vectorP.Length; i++) //cualquiera de los dos vectores son validos 
+           for (int i = 0; i < vectorP.Length; i++) //cualquiera de los dos vectores son validos 
                 {
-                    if (aux)
+                    
+                    if (i==1) {
+                        Label1.Text = (string) reader.GetValue(i);
+
+                    }
+                    else if (aux)
                     {
                         vectorP[i] = (int)reader.GetValue(i);
                     }
@@ -41,6 +47,7 @@ public partial class _Default : System.Web.UI.Page
            aux = false;
 
               }//fin while 
+     
           }
 
    
@@ -51,11 +58,13 @@ public partial class _Default : System.Web.UI.Page
     {
         List<Data> dataList = new List<Data>();
         
-
+       /*  for() {
+        } se usara for para agregar meses mediante un validador . */ 
+        
         dataList.Add(new Data("Enero", vectorP[2],vectorN[2]));
         dataList.Add(new Data("Febrero", vectorP[3], vectorN[3]));
         dataList.Add(new Data("Marzo", vectorP[4], vectorN[4]));
-        dataList.Add(new Data("Abril", vectorP[5], vectorN[5]));
+       /* dataList.Add(new Data("Abril", vectorP[5], vectorN[5]));
         dataList.Add(new Data("CMayo", vectorP[6], vectorN[6]));
         dataList.Add(new Data("Junio", vectorP[7], vectorN[7]));
         dataList.Add(new Data("Julio", vectorP[8], vectorN[8]));
@@ -65,9 +74,10 @@ public partial class _Default : System.Web.UI.Page
         dataList.Add(new Data("Noviembre", vectorP[12], vectorN[12]));
         dataList.Add(new Data("Diciembre", vectorP[13], vectorN[13]));
 
-
+        */
         return dataList;
     }
+   
 }
 
 public class Data

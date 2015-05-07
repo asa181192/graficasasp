@@ -9,7 +9,7 @@ using System.Web;
 public class Query
 {
 
-    public static String consulta()
+    public static String consulta(int valor)
     {
         string conecction = "SELECT"
 + " CASE WHEN MONTH(t.DateOfTransfer)= 1 then Count(t.TransferId) end as ENERO,"
@@ -31,7 +31,7 @@ public class Query
 + " JOIN [Production].[TransferPaymentInfo] tt (nolock) ON (t.TransferId=TT.TransferId)"
 + " join [Production].[InstitutionRoleXref] i (nolock) on (t.InstitutionRoleXrefTransmitterId=i.InstitutionRoleXrefId)"
 + " WHERE"
-+ " t.DateOfTransfer >= '20140101' AND t.InstitutionRoleXrefTransmitterId=103"
++ " t.DateOfTransfer >= '20140101' AND t.InstitutionRoleXrefTransmitterId="+valor+" "
 + " GROUP BY t.DateOfTransfer, i.InstitutionRoleXrefName"
 + " INSERT INTO #temp"
 + " SELECT"
@@ -53,7 +53,7 @@ public class Query
 + " JOIN [Production].[TransferPaymentInfoClosed] tt (nolock) ON (t.TransferId=TT.TransferId)"
 + " join [Production].[InstitutionRoleXref] i (nolock) on (t.InstitutionRoleXrefTransmitterId=i.InstitutionRoleXrefId)"
 + " WHERE"
-+ " t.DateOfTransfer >= '20140101' AND t.InstitutionRoleXrefTransmitterId=103"
++ " t.DateOfTransfer >= '20140101' AND t.InstitutionRoleXrefTransmitterId="+valor+" "
 + " GROUP BY t.DateOfTransfer,i.InstitutionRoleXrefName"
 + " Select"
 + " año,"

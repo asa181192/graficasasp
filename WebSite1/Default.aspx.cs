@@ -20,14 +20,14 @@ public partial class _Default : System.Web.UI.Page
       
         bool aux = true; 
 
-        string consulta = Query.consulta(); 
+        string consulta = Query.consulta(34); //Se envia el transmisdor del cual se requiere obtener la grafica 
 
         SqlConnection cn = new SqlConnection("Data Source=LAB-SQL1;Initial Catalog=TNC;Integrated Security=True;Connection Timeout=0");
         cn.Open();
         SqlCommand cmd = new SqlCommand(consulta, cn);
         SqlDataReader reader = cmd.ExecuteReader();
 
-        while (reader.Read()) {
+        while (reader.Read()) { //Recuperamos informacion de la base de datos las primeras dos son año y nombre de transmisor 
            for (int i = 0; i < vectorP.Length; i++) //cualquiera de los dos vectores son validos 
                 {
                     
@@ -56,15 +56,19 @@ public partial class _Default : System.Web.UI.Page
     [WebMethod]
     public static List<Data> GetData()
     {
+        string [] meses= new string [12]{"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"} ;
         List<Data> dataList = new List<Data>();
         
-       /*  for() {
-        } se usara for para agregar meses mediante un validador . */ 
+         for(int i = 0; i < vectorP.Length-2; i++ ) {
+
+             dataList.Add(new Data(meses[i], vectorP[i+2], vectorN[i+2]));
+        }  // Se agregan datos a la lista para mandarlos a la vista de la pagina 
         
-        dataList.Add(new Data("Enero", vectorP[2],vectorN[2]));
+        
+      /*  dataList.Add(new Data("Enero", vectorP[2],vectorN[2]));
         dataList.Add(new Data("Febrero", vectorP[3], vectorN[3]));
         dataList.Add(new Data("Marzo", vectorP[4], vectorN[4]));
-       /* dataList.Add(new Data("Abril", vectorP[5], vectorN[5]));
+        dataList.Add(new Data("Abril", vectorP[5], vectorN[5]));
         dataList.Add(new Data("CMayo", vectorP[6], vectorN[6]));
         dataList.Add(new Data("Junio", vectorP[7], vectorN[7]));
         dataList.Add(new Data("Julio", vectorP[8], vectorN[8]));
